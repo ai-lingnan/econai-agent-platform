@@ -1,27 +1,39 @@
-.git
+# Version control
+.git/
 .gitignore
-node_modules
-my-app/node_modules
 
-# Sensitive files (keep .env.example)
+# Dependencies (rebuilt in container)
+node_modules/
+
+# Environment (injected at runtime)
 .env
 .env.*
 !.env.example
 
-# Build artifacts (generated in Stage 1)
-backend/dist
-backend/__pycache__
-**/__pycache__
+# Python
+__pycache__/
 *.pyc
 
-# Backups (mounted as named volume)
-backend/backups
+# Build output (rebuilt in container)
+backend/dist/
 
-# IDE
-.idea
-.vscode
+# Data (mounted as volumes)
+backend/backups/
+storage/
+
+# Documentation (not needed in image)
+docs/
+
+# Archives
+*.tar.gz
+
+# IDE & OS
+.idea/
+.vscode/
+.DS_Store
 
 # Project tooling
-agent-workspace
-snapshots
-.claude
+.claude/
+.file/
+agent-workspace/
+snapshots/

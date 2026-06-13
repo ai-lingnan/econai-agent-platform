@@ -1,18 +1,33 @@
+# Environment
 .env
-agent-workspace/
-.claude/
+
+# Dependencies
 node_modules/
+
+# Python
 __pycache__/
 *.pyc
+
+# Database (SQLite legacy)
 *.db
 *.db-shm
 *.db-wal
+
+# Build output
+backend/dist/
+
+# Storage & Data
 storage/
 backend/backups/
-snapshots/
-backend/dist/
-homework-grading.tar.gz
-backend.tar.gz
 
-mag/
-frontend/
+# Archives
+*.tar.gz
+
+# OS
+.DS_Store
+
+# Project tooling
+.claude/
+.file/
+agent-workspace/
+snapshots/
