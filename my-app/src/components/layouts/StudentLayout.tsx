@@ -12,6 +12,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -39,6 +46,80 @@ const learningNav: NavItem[] = [
   { label: "我的成绩", href: "/student/grades", icon: BarChart3 },
   { label: "课程分享", href: "/student/sharing", icon: Share2 },
 ];
+
+function ClassSelector({ currentClassId }: { currentClassId: string | null }) {
+  const { switchClass } = useAuth();
+  const [classes, setClasses] = useState<MyClassItem[]>([]);
+  const [switching, setSwitching] = useState(false);
+
+  useEffect(() => {
+    authApi
+      .getMyClasses()
+      .then((res) => setClasses(res.classes))
+      .catch(() => {});
+  }, []);
+
+  if (classes.length === 0) return null;
+
+  const currentName = classes.find((c) => c.class_id === currentClassId)?.class_name;
+
+  async function handleSwitch(classId: string) {
+    if (classId === currentClassId) return;
+    setSwitching(true);
+    try {
+      await switchClass(classId);
+      toast.success("班级切换成功");
+      window.location.reload();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "切换失败");
+      setSwitching(false);
+    }
+  }
+
+  return (
+    <div className="mx-4 mb-4">
+      <Select
+        value={currentName}
+        onValueChange={(name) => {
+          const found = classes.find((c) => c.class_name === name);
+          if (found) handleSwitch(found.class_id);
+        }}
+        disabled={switching}
+      >
+        <SelectTrigger
+          className={cn(
+            "w-full text-xs h-9 rounded-lg",
+            "bg-[var(--ink-mid)] border-[rgba(201,169,110,0.15)] text-[var(--text-on-dark)]",
+            "hover:border-[var(--gold-dim)] hover:bg-[var(--ink-light)]",
+            "focus-visible:border-[var(--gold)]/30 focus-visible:ring-2 focus-visible:ring-[var(--gold)]/10",
+            "[&_svg]:text-[var(--text-on-dark-secondary)]",
+          )}
+        >
+          <SelectValue placeholder="选择班级" />
+        </SelectTrigger>
+        <SelectContent
+          className={cn(
+            "bg-[var(--ink-light)] border-[rgba(201,169,110,0.12)]",
+            "shadow-[0_8px_24px_rgba(0,0,0,0.4)]",
+          )}
+        >
+          {classes.map((c) => (
+            <SelectItem
+              key={c.class_id}
+              value={c.class_name}
+              className={cn(
+                "text-xs text-[var(--text-on-dark-secondary)] rounded-none",
+                "focus:bg-[var(--ink-mid)] focus:text-[var(--text-on-dark)]",
+              )}
+            >
+              {c.class_name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
 
 function ProfileDialog({
   open,
@@ -436,11 +517,13 @@ function ActionSection({
 
 function SidebarContent({
   onNavigate,
+  currentClassId,
   classActions,
   accountActions,
   logout,
 }: {
   onNavigate?: () => void;
+  currentClassId: string | null;
   classActions: ActionItem[];
   accountActions: ActionItem[];
   logout: () => void;
@@ -456,6 +539,8 @@ function SidebarContent({
           学生学习平台
         </p>
       </div>
+
+      <ClassSelector currentClassId={currentClassId} />
 
       {/* Navigation */}
       <nav className="flex-1">
@@ -532,6 +617,7 @@ export function StudentLayout() {
             <SheetTitle className="sr-only">导航菜单</SheetTitle>
             <SidebarContent
               onNavigate={() => setSheetOpen(false)}
+              currentClassId={classId}
               classActions={classActions}
               accountActions={accountActions}
               logout={logout}
@@ -548,6 +634,7 @@ export function StudentLayout() {
         {/* Desktop sidebar */}
         <aside className="hidden lg:flex lg:w-60 lg:flex-col lg:fixed lg:inset-y-0 border-r border-[var(--ink-mid)] bg-[var(--ink-deep)]">
           <SidebarContent
+            currentClassId={classId}
             classActions={classActions}
             accountActions={accountActions}
             logout={logout}
