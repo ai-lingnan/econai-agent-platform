@@ -285,17 +285,16 @@ async def list_my_submissions(
     student: TokenPayload = Depends(require_student),
     db: AsyncSession = Depends(get_db),
 ):
+    # 按当前班级过滤，避免跨班级数据泄露
     result = await db.execute(
-        select(Submission)
-        .where(Submission.student_id == student.id)
+        select(Submission, Task.title)
+        .join(Task, Submission.task_id == Task.id)
+        .where(Submission.student_id == student.id, Task.class_id == student.class_id)
         .order_by(Submission.submitted_at.desc())
     )
-    submissions = result.scalars().all()
-    items = []
-    for s in submissions:
-        result = await db.execute(select(Task).where(Task.id == s.task_id))
-        task = result.scalar_one_or_none()
-        items.append(_build_submission_detail(s, task.title if task else ""))
+    items = [
+        _build_submission_detail(s, title) for s, title in result.all()
+    ]
     return SubmissionListResponse(items=items)
 
 
@@ -305,17 +304,18 @@ async def get_my_submission(
     student: TokenPayload = Depends(require_student),
     db: AsyncSession = Depends(get_db),
 ):
+    result = await db.execute(select(Task).where(Task.id == task_id))
+    task = result.scalar_one_or_none()
+    if not task or task.class_id != student.class_id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="任务不存在")
+
     result = await db.execute(
         select(Submission)
         .where(Submission.task_id == task_id, Submission.student_id == student.id)
         .order_by(Submission.submitted_at.desc())
     )
     submissions = result.scalars().all()
-
-    result = await db.execute(select(Task).where(Task.id == task_id))
-    task = result.scalar_one_or_none()
-    task_title = task.title if task else ""
-    items = [_build_submission_detail(s, task_title) for s in submissions]
+    items = [_build_submission_detail(s, task.title) for s in submissions]
     return SubmissionListResponse(items=items)
 
 
