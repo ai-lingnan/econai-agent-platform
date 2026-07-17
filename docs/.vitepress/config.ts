@@ -60,7 +60,7 @@ export default defineConfig({
     ],
 
     footer: {
-      message: '<a href="https://github.com/ai-lingnan/econai-agent-platform">GitHub</a> · <a href="https://github.com/ai-lingnan">AI Lingnan</a>',
+      message: '<a href="https://github.com/ai-lingnan/econai-agent-platform">GitHub</a> · <a href="/econai-agent-platform/llms.txt">LLM 文档</a> · <a href="https://github.com/ai-lingnan">AI Lingnan</a>',
       copyright: 'AGPL-3.0 Licensed',
     },
 
