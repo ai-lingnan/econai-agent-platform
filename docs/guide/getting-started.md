@@ -27,7 +27,7 @@ cp .env.example .env
 
 如果需要 AI 批改功能，还需要配置 AI 模型的 API Key（可以登录后在管理界面配置）。
 
-完整的环境变量说明请看 [环境变量参考](/guide/configuration)。
+完整的环境变量说明请看 [环境变量参考](./configuration)。
 
 ## 第三步：启动
 
@@ -56,7 +56,7 @@ docker compose up -d
 4. **发布作业** — 教师创建作业、设定评分标准
 5. **学生提交** — 学生加入班级、提交作业、等待 AI 批改
 
-详细的使用流程请看 [教师使用指南](/guide/for-teachers) 和 [学生使用指南](/guide/for-students)。
+详细的使用流程请看 [教师使用指南](./for-teachers) 和 [学生使用指南](./for-students)。
 
 ## 更新平台
 

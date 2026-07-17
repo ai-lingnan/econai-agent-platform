@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import llmstxt from 'vitepress-plugin-llms'
 
 export default defineConfig({
   base: '/econai-agent-platform/',
@@ -6,6 +7,10 @@ export default defineConfig({
   lang: 'zh-CN',
   title: '经济金融 AI 智能体课程平台',
   description: '教师发布作业，学生提交，AI 自动批改 — 开箱即用的智能教学平台',
+
+  vite: {
+    plugins: [llmstxt()],
+  },
 
   head: [
     ['link', { rel: 'icon', href: '/econai-agent-platform/logo.png' }],

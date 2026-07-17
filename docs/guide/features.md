@@ -40,32 +40,46 @@
 
 书院风设计，墨蓝底色搭配宣纸色调。
 
-![登录页](/screenshots/login.png)
+<llm-exclude>
+![登录页](../screenshots/login.png)
+</llm-exclude>
 
 ### 教师端
 
 **作业列表** — 一目了然看到所有作业的提交情况
 
-![作业列表](/screenshots/admin-tasks.png)
+<llm-exclude>
+![作业列表](../screenshots/admin-tasks.png)
+</llm-exclude>
 
 **创建作业** — 评分标准支持 AI 辅助生成
 
-![创建作业](/screenshots/admin-create-task.png)
+<llm-exclude>
+![创建作业](../screenshots/admin-create-task.png)
+</llm-exclude>
 
 **AI 助教** — 自然语言交互，自动调用工具完成教师请求
 
-![AI 助教](/screenshots/admin-assistant.png)
+<llm-exclude>
+![AI 助教](../screenshots/admin-assistant.png)
+</llm-exclude>
 
 ### 学生端
 
 **提交作业** — 支持文本、文件、图片三种方式
 
-![作业详情](/screenshots/student-task-detail.png)
+<llm-exclude>
+![作业详情](../screenshots/student-task-detail.png)
+</llm-exclude>
 
 **AI 批改反馈** — 结构化的维度得分和改进建议
 
-![批改反馈](/screenshots/student-feedback.png)
+<llm-exclude>
+![批改反馈](../screenshots/student-feedback.png)
+</llm-exclude>
 
 **成绩汇总** — 颜色分级的成绩一览表
 
-![我的成绩](/screenshots/student-grades.png)
+<llm-exclude>
+![我的成绩](../screenshots/student-grades.png)
+</llm-exclude>

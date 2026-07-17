@@ -64,6 +64,6 @@
 - **容器化部署** — 一条 `docker compose up -d` 启动全部服务
 - **数据安全** — 一键备份到对象存储，随时恢复
 
-详细的技术架构请看 [架构说明](/guide/architecture)。
+详细的技术架构请看 [架构说明](./architecture)。
 
 <ImageViewer />
